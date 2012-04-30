@@ -4,16 +4,14 @@ import badm.Budget;
 import badm.Line;
 import cc.test.bridge.BridgeConstants;
 import cc.test.bridge.BridgeConstants.Side;
-import cc.test.bridge.LineInterface;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import cloud.count.DashboardFrame;
-import java.util.ArrayList;
 
 public final class CreateBudgetDialog extends javax.swing.JDialog 
 {   
@@ -201,6 +199,8 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
         rollComboBox = new javax.swing.JComboBox();
         startsDateChooser = new datechooser.beans.DateChooserCombo();
         endsDateChooser = new datechooser.beans.DateChooserCombo();
+        jLabel1 = new javax.swing.JLabel();
+        budgetTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cloud Count >> Create Budget");
@@ -349,7 +349,12 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
 
         rollLabel.setText("Roll:");
 
-        rollComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Weekly", "Bi Weekly", "Monthly" }));
+        rollComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Weekly", "Monthly", "Bi-Monthly", "Quarterly", " ", " " }));
+        rollComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rollComboBoxActionPerformed(evt);
+            }
+        });
 
         startsDateChooser.setCalendarPreferredSize(new java.awt.Dimension(350, 180));
         try {
@@ -365,6 +370,15 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
             e1.printStackTrace();
         }
         endsDateChooser.setLocale(new java.util.Locale("en", "GB", ""));
+
+        jLabel1.setText("Budget:");
+
+        budgetTextField.setText("1000.0");
+        budgetTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                budgetTextFieldActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -391,17 +405,17 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
                                     .add(StartsLabel)
                                     .add(descriptionLabel)
                                     .add(endsLabel)
-                                    .add(rollLabel))
+                                    .add(rollLabel)
+                                    .add(jLabel1))
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(titleTextField)
                                     .add(descriptionScrollPanel)
-                                    .add(layout.createSequentialGroup()
-                                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                            .add(rollComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                            .add(endsDateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                            .add(startsDateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                        .add(0, 0, Short.MAX_VALUE)))))
+                                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                        .add(rollComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .add(endsDateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .add(startsDateChooser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        .add(budgetTextField)))))
                         .addContainerGap(38, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -413,8 +427,13 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
                     .add(titleLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(descriptionScrollPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(descriptionLabel))
+                    .add(descriptionLabel)
+                    .add(descriptionScrollPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 49, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(2, 2, 2)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel1)
+                    .add(budgetTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(25, 25, 25)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .add(18, 18, 18)
@@ -446,7 +465,21 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         budget.setDescription(descriptionTextArea.getText());
-        budget.setName(titleTextField.getText());   
+        budget.setName(titleTextField.getText());
+        if(rollComboBox.getSelectedIndex() == 0){
+          budget.setNumTransactions(52);
+        }
+        else if(rollComboBox.getSelectedIndex() == 1){
+          budget.setNumTransactions(12);
+        }
+        else if(rollComboBox.getSelectedIndex() == 2){
+          budget.setNumTransactions(6);
+        }
+        else if(rollComboBox.getSelectedIndex() == 3){
+          budget.setNumTransactions(4);
+        }
+        budget.setGoal(Double.parseDouble(budgetTextField.getText()));
+        System.out.println("BudgetRoll:"+budget.getNumTransactions());
         JOptionPane.showMessageDialog(null, "New Budget Saved");
         budget.commit();
         budget = null;
@@ -462,6 +495,8 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
         Line line = (Line) budget.createLine();
         line.setIncome(true);        
         line.setNumber(findLineNumber(BridgeConstants.Side.INCOME));
+        Long time = new Long("1333076308000");
+        line.setCreateTime(time);
         line.commit();
         SublineUpdateDialog dialog = new SublineUpdateDialog(null, true, line);
         dialog.setLocationRelativeTo(null);
@@ -488,6 +523,14 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
         CBIncomeTableModel model = (CBIncomeTableModel) incomeTable.getModel();
         model.refresh();
     }//GEN-LAST:event_incomeRemoveLineButtonActionPerformed
+
+    private void rollComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rollComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rollComboBoxActionPerformed
+
+    private void budgetTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_budgetTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_budgetTextFieldActionPerformed
     private Line getLine(int row, Side side){
         return (Line) budget.fetchLines(side).get(row); 
     }
@@ -559,6 +602,7 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel StartsLabel;
+    private javax.swing.JTextField budgetTextField;
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JScrollPane descriptionScrollPanel;
@@ -581,6 +625,7 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
     private javax.swing.JButton incomeSublineDownButton;
     private javax.swing.JButton incomeSublineUpButton;
     private javax.swing.JTable incomeTable;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JComboBox rollComboBox;
     private javax.swing.JLabel rollLabel;
     private javax.swing.JButton saveButton;
