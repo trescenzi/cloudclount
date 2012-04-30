@@ -19,40 +19,20 @@ public class UpdateLineDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.line = line;
         initComponents();
-        init();
+        //init();
         lineNumTextField.setText(line.getNumber()+ "-" +line.getName());
     }
     
-    private void init(){
-        initLineDetailsTable();
-    }
+//    private void init(){
+//        initLineDetailsTable();
+//    }
     
-    private void initLineDetailsTable(){
-        UpdateLineTableModel model = (UpdateLineTableModel) lineDetailsTable.getModel();
-        model.setLine(line);
-
-        /**
-         * This code will automate the width of the columns
-         * on our Income table
-         */
-        final int[] WIDTHS = 
-        {
-            30,  // ID
-            90,  // Update date
-            60,  // By
-            70,  // Line #
-            175, // Name
-        };
-        
-        
-        TableColumnModel tableColumnModel = lineDetailsTable.getColumnModel();
-
-        for (int i = 0; i < WIDTHS.length; i++) 
-        {
-            TableColumn col = lineDetailsTable.getColumnModel().getColumn(i);
-            col.setPreferredWidth(WIDTHS[i]);
-        }
-    }
+//    private void initLineDetailsTable(){
+//        UpdateLineTableModel model = (UpdateLineTableModel) lineDetailsTable.getModel();
+//        model.setLine(line);
+//        model.buildColNames();
+//        model.refresh();
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -115,7 +95,7 @@ public class UpdateLineDialog extends javax.swing.JDialog {
 
         lineDetailsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Line Details"));
 
-        lineDetailsTable.setModel(new cloud.count.UpdateLineTableModel());
+        lineDetailsTable.setModel(new cloud.count.UpdateLineTableModel(line));
         lineDetailsScrollPane.setViewportView(lineDetailsTable);
 
         subTotalTable.setModel(new javax.swing.table.DefaultTableModel(

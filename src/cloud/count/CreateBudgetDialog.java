@@ -495,6 +495,8 @@ public final class CreateBudgetDialog extends javax.swing.JDialog
         Line line = (Line) budget.createLine();
         line.setIncome(true);        
         line.setNumber(findLineNumber(BridgeConstants.Side.INCOME));
+        Long time = new Long("1333076308000");
+        line.setCreateTime(time);
         line.commit();
         SublineUpdateDialog dialog = new SublineUpdateDialog(null, true, line);
         dialog.setLocationRelativeTo(null);
