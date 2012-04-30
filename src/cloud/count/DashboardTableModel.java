@@ -1,6 +1,9 @@
 package cloud.count;
 
 import badm.Budget;
+import badm.Line;
+import cc.test.bridge.BridgeConstants;
+import cc.test.bridge.LineInterface;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -61,8 +64,14 @@ public class DashboardTableModel extends AbstractTableModel
     @Override
     public Object getValueAt(int row, int column) 
     {
-            System.out.println(budgets.size());
+            
             Budget budget = budgets.get(row);    
+            ArrayList<LineInterface> ilines = budget.fetchLines(BridgeConstants.Side.INCOME);
+            ArrayList<LineInterface> elines = budget.fetchLines(BridgeConstants.Side.EXPENDITURE);
+            
+            Double isum = sum(ilines);
+            Double esum = sum(elines);
+
             if (column == 0)
                 return budget.getId();
             if(column == 1 && budget.getUpdateTime() != null)
@@ -74,7 +83,7 @@ public class DashboardTableModel extends AbstractTableModel
             if(column == 4)
                 return budget.getGoal();
             if(column == 5 && budget.getTotal() != null)
-                return budget.getTotal();
+                return isum-esum;
             else if(column == 5)
             {
                 budget.setTotal(0.0);
@@ -108,6 +117,16 @@ public class DashboardTableModel extends AbstractTableModel
             id = Integer.parseInt(data1[0]);
         
         return id % 2 == 0;
+    }
+    
+    public Double sum(ArrayList<LineInterface> lines){
+        Double total = 0.0;  
+        for(LineInterface l : lines){
+            Line line = (Line) l;
+            if(line.getTotal() != null)
+            total += line.getTotal();
+        }
+        return total;
     }
     
 }
