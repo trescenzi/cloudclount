@@ -74,7 +74,17 @@ public class DashboardTableModel extends AbstractTableModel
             if(column == 5 && budget.getTotal() != null)
                 return budget.getTotal();
             else if(column == 5)
+            {
+                budget.setTotal(0.0);
                 return 0;
+            }    
+            if(budget.getGoal() != null && budget.getTotal() != null)
+            {
+                if(column == 6)
+                    return budget.getGoal() - budget.getTotal();
+                if(column == 7)
+                    return (budget.getTotal()/budget.getGoal()) * 100;
+            }
             
             return data1 [column];
     }
