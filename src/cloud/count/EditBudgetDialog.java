@@ -39,6 +39,9 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
         
         // Display the Budget's Description
         descriptionTextArea.setText(budget.getDescription());
+        
+        enterTextField.setText("");
+        
     }
     
     protected void init()
@@ -192,6 +195,7 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
             175  // Document Name
 
         };
+        
 
         for (int i = 0; i < WIDTHS.length; i++) 
         {
@@ -243,7 +247,10 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
     protected void initEditBudgetNotesTable()
     {
         EBNotesTableModel model = (EBNotesTableModel) notesTable.getModel();
-        //model.setBudget(budget);
+        model.setSide(BridgeConstants.Side.EXPENDITURE);
+        model.setBudget(budget);
+        
+        
         /**
          * This code will automate the width of the columns
          * on our notes table
@@ -255,6 +262,8 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
             200, // Note
 
         };
+        
+        TableColumnModel tableColumnModel = notesTable.getColumnModel();
 
         for (int i = 0; i < WIDTHS.length; i++) 
         {
@@ -266,7 +275,10 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
     protected void initEditBudgetAuditTrailTable()
     {
         EBAuditTrailTableModel model = (EBAuditTrailTableModel) auditTrailTable.getModel();
-        //model.setBudget(budget);
+        model.setSide(BridgeConstants.Side.EXPENDITURE);
+        model.setBudget(budget);
+        
+        
         /**
          * This code will automate the width of the columns
          * on our AuditTrail table
@@ -278,6 +290,8 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
             200, // cCtion
 
         };
+        
+        TableColumnModel tableColumnModel = auditTrailTable.getColumnModel();
 
         for (int i = 0; i < WIDTHS.length; i++) 
         {
@@ -655,14 +669,12 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
             @Override
             public void run()
             {
-                //startWaitCursor(null);
                 UploadAttachmentDialog dialog = new UploadAttachmentDialog(parent, true, jrh);
                 dialog.setVisible(true);
                 // Center Dialog
                 dialog.setLocationRelativeTo(null);
                 EBAttachmentsTableModel model = (EBAttachmentsTableModel) attachmentsTable.getModel();
                 model.refresh();
-                //stopWaitCursor(null);
             }
         });
     }//GEN-LAST:event_uploadButtonActionPerformed
@@ -727,8 +739,13 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
                 newNote.setText(enterTextField.getText());
                 //newNote.setDate();
                 //newNote.setAuthor();
+                newNote.commit();
+                enterTextField.setText("");
+                
                 EBNotesTableModel notesModel = (EBNotesTableModel) notesTable.getModel();
                 notesModel.refresh();
+                
+                JOptionPane.showMessageDialog(null, "Note saved");
             }
         });
       
