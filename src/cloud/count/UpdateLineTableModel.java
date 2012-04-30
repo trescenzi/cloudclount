@@ -77,7 +77,8 @@ public class UpdateLineTableModel extends AbstractTableModel {
             }
         }
     }
-
+    //the following three methods wish they were written in scala:
+    
     private void monthly(int days, long current) {
         int month = new Date(current).getMonth();
         if (days > 0) {
