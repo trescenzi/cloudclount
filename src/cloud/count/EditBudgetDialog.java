@@ -87,6 +87,8 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
             tableColumnModel.getColumn(i).setCellRenderer(myTableRenderer);
         }
         
+       setIncomeTotalTextField();
+
         incomeTable.addMouseListener(new MouseAdapter() 
         {
             @Override
@@ -110,6 +112,7 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
                 }
             }
         });
+
     }
     
     protected void initEditBudgetExpendituresTable()
@@ -142,7 +145,7 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
             col.setPreferredWidth(WIDTHS[i]);
             tableColumnModel.getColumn(i).setCellRenderer(myTableRenderer);
         }
-        
+        setExpendaturesTotalTextField();
         expendituresTable.addMouseListener(new MouseAdapter() 
         {
             @Override
@@ -657,6 +660,7 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
         
         // Save the changes to the description
         budget.setDescription(descriptionTextArea.getText());
+        budget.setStatus(optionComboBox.getSelectedItem().toString());
         budget.commit();
         
         // Show confirmation
@@ -723,6 +727,7 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
         Double total = 0.0;
         for(LineInterface l : lines){
             Line line = (Line) l;
+            if(line.getTotal() != null)
             total += line.getTotal();
         }
         totalIncomeTextField.setText(total.toString());
@@ -733,6 +738,7 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
         Double total = 0.0;
         for (LineInterface l : lines) {
             Line line = (Line) l;
+            if(line.getTotal() != null)
             total += line.getTotal();
         }
         totalExpendituresTextField.setText(total.toString());

@@ -202,12 +202,13 @@ public class UpdateLineTableModel extends AbstractTableModel {
                 Transaction tran = sorted.get(column);
                 tran.setAmount(Double.parseDouble((String) o));
                 System.out.println("Please1:"+tran.getAmount());
-                //tran.commit();
+                tran.commit();
             }catch(Exception e){
                 Transaction tran = (Transaction) subline.createTransaction();
+                tran.commit();
                 tran.setAmount(Double.parseDouble((String) o));
                 System.out.println("Please2:"+tran.getAmount());
-                //tran.commit();
+                tran.commit();
             }
             
         }

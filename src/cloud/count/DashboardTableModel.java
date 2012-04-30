@@ -67,6 +67,8 @@ public class DashboardTableModel extends AbstractTableModel
                 return budget.getId();
             if(column == 1 && budget.getUpdateTime() != null)
                 return DateFormatter.toString(new Date(budget.getUpdateTime()));
+            if(column == 2)
+                return budget.getStatus();
             if(column == 3)
                 return budget.getName();
             if(column == 4)
