@@ -17,9 +17,7 @@ public class UpdateLineTableModel extends AbstractTableModel
     private String[] columnNames = 
     {
         "Number", 
-        "Name", 
-        "Transaction 1", 
-        "Transaction 2",
+        "Name",
         "Subtotal"
     };
 
@@ -35,7 +33,12 @@ public class UpdateLineTableModel extends AbstractTableModel
     @Override
     public String getColumnName(int col) 
     {
+        buildColNames();
         return columnNames[col];
+    }
+    
+    private void buildColNames(){
+        
     }
     
     @Override
