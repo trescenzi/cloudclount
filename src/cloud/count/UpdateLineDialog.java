@@ -4,6 +4,7 @@ import badm.Line;
 import cc.test.bridge.BridgeConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumn;
@@ -23,16 +24,40 @@ public class UpdateLineDialog extends javax.swing.JDialog {
         lineNumTextField.setText(line.getNumber()+ "-" +line.getName());
     }
     
-//    private void init(){
-//        initLineDetailsTable();
-//    }
+    private void init(){
+        initLineDetailsTable();
+    }
     
-//    private void initLineDetailsTable(){
-//        UpdateLineTableModel model = (UpdateLineTableModel) lineDetailsTable.getModel();
-//        model.setLine(line);
-//        model.buildColNames();
-//        model.refresh();
-//    }
+    private void initLineDetailsTable(){
+        UpdateLineTableModel model = (UpdateLineTableModel) lineDetailsTable.getModel();
+        TableColumnModel tableColumnModel = lineDetailsTable.getColumnModel();
+        for(int i = 0; i < tableColumnModel.getColumnCount(); i+=1){
+            tableColumnModel.getColumn(i).setMinWidth(100);
+        }
+        lineDetailsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        
+        JTable fixedTable = new JTable();
+        fixedTable.setAutoCreateColumnsFromModel(false);
+        fixedTable.setModel(lineDetailsTable.getModel());
+        fixedTable.setSelectionModel(lineDetailsTable.getSelectionModel());
+        fixedTable.setFocusable(false);
+        
+        TableColumnModel columnModel = lineDetailsTable.getColumnModel();
+        for (int i = 0; i < 3; i++) {
+            TableColumn column = columnModel.getColumn(0);
+            columnModel.removeColumn(column);
+            fixedTable.getColumnModel().addColumn(column);
+        }
+        
+        TableColumn column = columnModel.getColumn(lineDetailsTable.getColumnCount()-1);
+        columnModel.removeColumn(column);
+        fixedTable.getColumnModel().addColumn(column);
+        
+        fixedTable.setPreferredScrollableViewportSize(fixedTable.getPreferredSize());
+        lineDetailsScrollPane.setRowHeaderView(fixedTable);
+        lineDetailsScrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, fixedTable.getTableHeader());
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,7 +81,6 @@ public class UpdateLineDialog extends javax.swing.JDialog {
         lineDetailsTable = new javax.swing.JTable();
         subTotalScrollPane = new javax.swing.JScrollPane();
         subTotalTable = new javax.swing.JTable();
-        slider = new javax.swing.JSlider();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cloud Count >> Update Line");
@@ -113,28 +137,18 @@ public class UpdateLineDialog extends javax.swing.JDialog {
         lineDetailsPanelLayout.setHorizontalGroup(
             lineDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(lineDetailsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(lineDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, lineDetailsPanelLayout.createSequentialGroup()
-                        .add(lineDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(lineDetailsPanelLayout.createSequentialGroup()
-                                .add(0, 0, Short.MAX_VALUE)
-                                .add(subTotalScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 448, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(lineDetailsScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE))
-                        .add(39, 39, 39))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, lineDetailsPanelLayout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
-                        .add(slider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 305, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(121, 121, 121))))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(lineDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(subTotalScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 448, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lineDetailsScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 510, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(39, 39, 39))
         );
         lineDetailsPanelLayout.setVerticalGroup(
             lineDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(lineDetailsPanelLayout.createSequentialGroup()
                 .add(12, 12, 12)
                 .add(lineDetailsScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 84, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(slider, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 40, Short.MAX_VALUE)
                 .add(subTotalScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 19, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(20, 20, 20))
         );
@@ -267,7 +281,6 @@ public class UpdateLineDialog extends javax.swing.JDialog {
     private javax.swing.JTable lineDetailsTable;
     private java.awt.Label lineNumLabel;
     private java.awt.TextField lineNumTextField;
-    private javax.swing.JSlider slider;
     private javax.swing.JScrollPane subTotalScrollPane;
     private javax.swing.JTable subTotalTable;
     private java.awt.Label toLabel;

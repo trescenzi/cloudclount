@@ -69,6 +69,8 @@ public class EditBudgetTableModel extends AbstractTableModel
             return line.getNumber();
         else if(column == 4)
             return line.getName();
+        else if(column == 5)
+            return line.getTotal();
         return expendituresData[column];
     }
     

@@ -4,7 +4,9 @@ import badm.Budget;
 import badm.Audit;
 import cc.test.bridge.BridgeConstants;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.table.AbstractTableModel;
+import org.workplicity.util.DateFormatter;
 
 public class EBAuditTrailTableModel extends AbstractTableModel
 {
@@ -59,7 +61,7 @@ public class EBAuditTrailTableModel extends AbstractTableModel
     {
         Audit audit = (Audit) audits.get(row);
         if(column == 0)
-            ;//return line.getDate();
+            return DateFormatter.toString(new Date(audit.getCreateTime()));
         else if(column == 1)
             ;//return line.getAuthor();
         else if(column == 2)

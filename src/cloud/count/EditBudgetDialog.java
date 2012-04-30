@@ -708,9 +708,13 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
        income.refresh();
        EditBudgetTableModel expend = (EditBudgetTableModel) expendituresTable.getModel();
        expend.refresh();
-       
+       setIncomeTotalTextField();
     }//GEN-LAST:event_refreshButtonActionPerformed
 
+    private void setIncomeTotalTextField(){
+        
+    }
+    
     private void downloadDocumentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadDocumentMenuItemActionPerformed
         SwingUtilities.invokeLater(new Runnable()
         {

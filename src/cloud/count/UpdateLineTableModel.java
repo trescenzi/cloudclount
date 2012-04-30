@@ -3,11 +3,14 @@ package cloud.count;
 import badm.Budget;
 import badm.Line;
 import badm.Subline;
+import badm.Transaction;
 import cc.test.bridge.BridgeConstants.Side;
 import cc.test.bridge.LineInterface;
 import cc.test.bridge.SublineInterface;
+import cc.test.bridge.TransactionInterface;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import javax.swing.table.AbstractTableModel;
 import org.workplicity.util.DateFormatter;
@@ -24,16 +27,29 @@ public class UpdateLineTableModel extends AbstractTableModel {
     long lineCreateTime;
     ArrayList<SublineInterface> sublines;
     private ArrayList<String> columnNames = new ArrayList();
-    private String[] expendituresData = {
-        "1",
-        "24 / 12 / 2011",
-        "fred",
-        "100",
-        "Ordinary Collections",
-        "sex",
-        "sex2",
-        "sex3"
-    };
+//
+//    private String[] expendituresData = {
+//        "1",
+//        "24 / 12 / 2011",
+//        "fred",
+//        "100",
+//        "Ordinary Collections",
+//        "sex",
+//        "sex2",
+//        "sex3",
+//                "sex",
+//        "sex2",
+//        "sex3",
+//                "sex",
+//        "sex2",
+//        "sex3",
+//                "sex",
+//        "sex2",
+//        "sex3",
+//                "sex",
+//        "sex2",
+//        "sex3"
+//    };
 
     @Override
     public String getColumnName(int col) {
@@ -158,18 +174,20 @@ public class UpdateLineTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int column) {
         Subline subline = (Subline) sublines.get(row);
+        ArrayList<Transaction> trans = sort(subline);
         if (column == 0) {
             return subline.getNumber();
-        } else if (column == 1) {
+        } 
+        else if (column == 1) {
             return subline.getName();
-        } else if (column == 2) {
-            Double d = subline.getTotal();
-            if (d != null) {
-                return 0;
-            }
-            return d;
+        } 
+        else if (column == 2) {
+            return subline.getTotal();
         }
-        return expendituresData[column];
+        else if (column < trans.size()){
+            return trans.get(column).getAmount();
+        }
+        return 0.0;
     }
 
     public void refresh() {
@@ -183,4 +201,50 @@ public class UpdateLineTableModel extends AbstractTableModel {
     public void setLine(Line l) {
         line = l;
     }
+    
+    @Override
+    public boolean isCellEditable(int row, int column){
+        if(column > 2){
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public void fireTableCellUpdated(int row, int column){
+        refresh();
+    }
+    
+    @Override
+    public void setValueAt(Object o, int row, int column){
+            if(column > 2){
+            Subline subline = (Subline) sublines.get(row);
+            ArrayList<Transaction> sorted = sort(subline);
+            Collections.sort(sorted);
+            try{
+                Transaction tran = sorted.get(column);
+                tran.setAmount(Double.parseDouble((String) o));
+                System.out.println("Please1:"+tran.getAmount());
+                tran.commit();
+            }catch(Exception e){
+                Transaction tran = (Transaction) subline.createTransaction();
+                tran.setAmount(Double.parseDouble((String) o));
+                System.out.println("Please2:"+tran.getAmount());
+                tran.commit();
+            }
+            
+        }
+    }
+    
+    public ArrayList<Transaction> sort(Subline su){
+        ArrayList<TransactionInterface> trans = su.fetchTransactions();
+
+        //this is why the bridge can be very annoying 
+        ArrayList<Transaction> sorted = new ArrayList();
+        for (TransactionInterface t : trans) {
+            sorted.add((Transaction) t);
+        }
+        return sorted;
+    }
+    
 }
