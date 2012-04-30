@@ -2,8 +2,10 @@ package cloud.count;
 
 import badm.Budget;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import javax.swing.table.AbstractTableModel;
+import org.workplicity.util.DateFormatter;
 
 public class DashboardTableModel extends AbstractTableModel
 {
@@ -63,8 +65,17 @@ public class DashboardTableModel extends AbstractTableModel
             Budget budget = budgets.get(row);    
             if (column == 0)
                 return budget.getId();
+            if(column == 1 && budget.getUpdateTime() != null)
+                return DateFormatter.toString(new Date(budget.getUpdateTime()));
             if(column == 3)
-                return budget.getName();      
+                return budget.getName();
+            if(column == 4)
+                return budget.getGoal();
+            if(column == 5 && budget.getTotal() != null)
+                return budget.getTotal();
+            else if(column == 5)
+                return 0;
+            
             return data1 [column];
     }
     
