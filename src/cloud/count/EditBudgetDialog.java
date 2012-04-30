@@ -277,7 +277,8 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
         EBAuditTrailTableModel model = (EBAuditTrailTableModel) auditTrailTable.getModel();
         model.setSide(BridgeConstants.Side.EXPENDITURE);
         model.setBudget(budget);
-        //model.setBudget(budget);
+        
+        
         /**
          * This code will automate the width of the columns
          * on our AuditTrail table
