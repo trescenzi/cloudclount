@@ -27,29 +27,6 @@ public class UpdateLineTableModel extends AbstractTableModel {
     long lineCreateTime;
     ArrayList<SublineInterface> sublines;
     private ArrayList<String> columnNames = new ArrayList();
-//
-//    private String[] expendituresData = {
-//        "1",
-//        "24 / 12 / 2011",
-//        "fred",
-//        "100",
-//        "Ordinary Collections",
-//        "sex",
-//        "sex2",
-//        "sex3",
-//                "sex",
-//        "sex2",
-//        "sex3",
-//                "sex",
-//        "sex2",
-//        "sex3",
-//                "sex",
-//        "sex2",
-//        "sex3",
-//                "sex",
-//        "sex2",
-//        "sex3"
-//    };
 
     @Override
     public String getColumnName(int col) {
@@ -225,12 +202,12 @@ public class UpdateLineTableModel extends AbstractTableModel {
                 Transaction tran = sorted.get(column);
                 tran.setAmount(Double.parseDouble((String) o));
                 System.out.println("Please1:"+tran.getAmount());
-                tran.commit();
+                //tran.commit();
             }catch(Exception e){
                 Transaction tran = (Transaction) subline.createTransaction();
                 tran.setAmount(Double.parseDouble((String) o));
                 System.out.println("Please2:"+tran.getAmount());
-                tran.commit();
+                //tran.commit();
             }
             
         }

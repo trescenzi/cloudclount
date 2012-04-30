@@ -5,6 +5,7 @@ import badm.Line;
 import badm.Note;
 import cc.test.bridge.BridgeConstants;
 import cc.test.bridge.BridgeConstants.Side;
+import cc.test.bridge.LineInterface;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -179,6 +180,10 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
         // Center Dialog
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
+        EditBudgetTableModel model = (EditBudgetTableModel) expendituresTable.getModel();
+        model.refresh();
+        model = (EditBudgetTableModel) incomeTable.getModel();
+        model.refresh();
     }
     
     protected void initEditBudgetAttachmentsTable()
@@ -709,11 +714,36 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
        EditBudgetTableModel expend = (EditBudgetTableModel) expendituresTable.getModel();
        expend.refresh();
        setIncomeTotalTextField();
+       setExpendaturesTotalTextField();
+       setExcessIncomeTextField();
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void setIncomeTotalTextField(){
-        
+        ArrayList<LineInterface> lines = budget.fetchLines(BridgeConstants.Side.INCOME);
+        Double total = 0.0;
+        for(LineInterface l : lines){
+            Line line = (Line) l;
+            total += line.getTotal();
+        }
+        totalIncomeTextField.setText(total.toString());
     }
+    
+    private void setExpendaturesTotalTextField() {
+        ArrayList<LineInterface> lines = budget.fetchLines(BridgeConstants.Side.EXPENDITURE);
+        Double total = 0.0;
+        for (LineInterface l : lines) {
+            Line line = (Line) l;
+            total += line.getTotal();
+        }
+        totalExpendituresTextField.setText(total.toString());
+    }
+    
+    private void setExcessIncomeTextField(){
+        Double income = Double.parseDouble(totalIncomeTextField.getText());
+        Double expend = Double.parseDouble(totalExpendituresTextField.getText());
+        excessIncomeTextField.setText("Excess Income:"+ (income - expend));
+    }
+    
     
     private void downloadDocumentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadDocumentMenuItemActionPerformed
         SwingUtilities.invokeLater(new Runnable()

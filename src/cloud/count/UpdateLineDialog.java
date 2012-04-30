@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
@@ -79,8 +80,6 @@ public class UpdateLineDialog extends javax.swing.JDialog {
         lineDetailsPanel = new javax.swing.JPanel();
         lineDetailsScrollPane = new javax.swing.JScrollPane();
         lineDetailsTable = new javax.swing.JTable();
-        subTotalScrollPane = new javax.swing.JScrollPane();
-        subTotalTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cloud Count >> Update Line");
@@ -93,6 +92,11 @@ public class UpdateLineDialog extends javax.swing.JDialog {
         });
 
         doneButton.setLabel("Done");
+        doneButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doneButtonActionPerformed(evt);
+            }
+        });
 
         lineNumTextField.setEditable(false);
         lineNumTextField.setEnabled(false);
@@ -122,25 +126,13 @@ public class UpdateLineDialog extends javax.swing.JDialog {
         lineDetailsTable.setModel(new cloud.count.UpdateLineTableModel(line));
         lineDetailsScrollPane.setViewportView(lineDetailsTable);
 
-        subTotalTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null}
-            },
-            new String [] {
-                "Sub - Total", "N/A", "310.94", "3,346.68"
-            }
-        ));
-        subTotalScrollPane.setViewportView(subTotalTable);
-
         org.jdesktop.layout.GroupLayout lineDetailsPanelLayout = new org.jdesktop.layout.GroupLayout(lineDetailsPanel);
         lineDetailsPanel.setLayout(lineDetailsPanelLayout);
         lineDetailsPanelLayout.setHorizontalGroup(
             lineDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(lineDetailsPanelLayout.createSequentialGroup()
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(lineDetailsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(subTotalScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 448, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(lineDetailsScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 510, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(lineDetailsScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 510, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(39, 39, 39))
         );
         lineDetailsPanelLayout.setVerticalGroup(
@@ -148,9 +140,7 @@ public class UpdateLineDialog extends javax.swing.JDialog {
             .add(lineDetailsPanelLayout.createSequentialGroup()
                 .add(12, 12, 12)
                 .add(lineDetailsScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 84, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 40, Short.MAX_VALUE)
-                .add(subTotalScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 19, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(20, 20, 20))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -171,12 +161,12 @@ public class UpdateLineDialog extends javax.swing.JDialog {
                             .add(fromTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 139, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(toTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 139, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .add(0, 0, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
+                    .add(lineDetailsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(0, 0, Short.MAX_VALUE)
                         .add(doneButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(cancelButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(lineDetailsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(13, 13, 13)
+                        .add(cancelButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -198,11 +188,11 @@ public class UpdateLineDialog extends javax.swing.JDialog {
                     .add(toLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lineDetailsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(doneButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(cancelButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -216,6 +206,11 @@ public class UpdateLineDialog extends javax.swing.JDialog {
     private void lineNumTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineNumTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_lineNumTextFieldActionPerformed
+
+    private void doneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneButtonActionPerformed
+        line.commit();
+        dispose();
+    }//GEN-LAST:event_doneButtonActionPerformed
 
     
     /**
@@ -281,8 +276,6 @@ public class UpdateLineDialog extends javax.swing.JDialog {
     private javax.swing.JTable lineDetailsTable;
     private java.awt.Label lineNumLabel;
     private java.awt.TextField lineNumTextField;
-    private javax.swing.JScrollPane subTotalScrollPane;
-    private javax.swing.JTable subTotalTable;
     private java.awt.Label toLabel;
     private java.awt.TextField toTextField;
     // End of variables declaration//GEN-END:variables
