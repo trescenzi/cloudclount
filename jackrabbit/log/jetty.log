@@ -1,0 +1,20 @@
+2012-03-06 23:43:58.123 INFO  [main] Slf4jLog.java:67                  Logging to Logger[org.mortbay.log] via org.mortbay.log.Slf4jLog
+2012-03-06 23:43:58.136 INFO  [main] Slf4jLog.java:67                  jetty-6.1.x
+2012-03-06 23:43:58.173 WARN  [main] Slf4jLog.java:76                  Web application not found jackrabbit-standalone.jar
+2012-03-06 23:43:58.182 WARN  [main] Slf4jLog.java:89                  Failed startup of context org.mortbay.jetty.webapp.WebAppContext@f55ff2{/,jackrabbit-standalone.jar}
+java.io.FileNotFoundException: jackrabbit-standalone.jar
+	at org.mortbay.jetty.webapp.WebAppContext.resolveWebApp(WebAppContext.java:965) ~[jackrabbit-standalone-2.4.0.jar:na]
+	at org.mortbay.jetty.webapp.WebAppContext.getWebInf(WebAppContext.java:800) ~[jackrabbit-standalone-2.4.0.jar:na]
+	at org.mortbay.jetty.webapp.WebInfConfiguration.configureClassLoader(WebInfConfiguration.java:62) ~[jackrabbit-standalone-2.4.0.jar:na]
+	at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:457) ~[jackrabbit-standalone-2.4.0.jar:na]
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50) [jackrabbit-standalone-2.4.0.jar:na]
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130) [jackrabbit-standalone-2.4.0.jar:na]
+	at org.mortbay.jetty.handler.RequestLogHandler.doStart(RequestLogHandler.java:115) [jackrabbit-standalone-2.4.0.jar:na]
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50) [jackrabbit-standalone-2.4.0.jar:na]
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130) [jackrabbit-standalone-2.4.0.jar:na]
+	at org.mortbay.jetty.Server.doStart(Server.java:224) [jackrabbit-standalone-2.4.0.jar:na]
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:50) [jackrabbit-standalone-2.4.0.jar:na]
+	at org.apache.jackrabbit.standalone.Main.run(Main.java:173) [jackrabbit-standalone-2.4.0.jar:na]
+	at org.apache.jackrabbit.standalone.Main.main(Main.java:60) [jackrabbit-standalone-2.4.0.jar:na]
+2012-03-06 23:43:58.189 INFO  [main] Slf4jLog.java:67                  Opened C:\Users\trescenzi\Cloud-Count\Cloud Count\jackrabbit\log\access.log.2012-03-07
+2012-03-06 23:43:58.226 INFO  [main] Slf4jLog.java:67                  Started SocketConnector@0.0.0.0:8080

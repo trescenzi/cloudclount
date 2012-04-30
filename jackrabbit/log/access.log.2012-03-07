@@ -1,0 +1,7 @@
+127.0.0.1 -  -  [07/Mar/2012:04:44:32 +0000] "GET /rmi HTTP/1.1" 503 1291 "-" "Java/1.7.0_02"
+127.0.0.1 -  -  [07/Mar/2012:04:44:39 +0000] "GET /rmi HTTP/1.1" 503 1291 "-" "Java/1.7.0_02"
+127.0.0.1 -  -  [07/Mar/2012:04:45:03 +0000] "GET / HTTP/1.1" 503 1288 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11"
+127.0.0.1 -  -  [07/Mar/2012:04:45:04 +0000] "GET / HTTP/1.1" 503 1288 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11"
+127.0.0.1 -  -  [07/Mar/2012:04:45:04 +0000] "GET /favicon.ico HTTP/1.1" 503 1299 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11"
+127.0.0.1 -  -  [07/Mar/2012:04:45:58 +0000] "GET / HTTP/1.1" 503 1288 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11"
+127.0.0.1 -  -  [07/Mar/2012:04:45:58 +0000] "GET /favicon.ico HTTP/1.1" 503 1299 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.56 Safari/535.11"
