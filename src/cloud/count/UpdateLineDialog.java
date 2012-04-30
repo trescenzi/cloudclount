@@ -4,12 +4,14 @@ import badm.Line;
 import cc.test.bridge.BridgeConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import org.workplicity.util.DateFormatter;
 
 public class UpdateLineDialog extends javax.swing.JDialog {
     
@@ -21,7 +23,8 @@ public class UpdateLineDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.line = line;
         initComponents();
-        //init();
+        fromTextField.setText(DateFormatter.toString(new Date(line.getCreateTime())));
+        toTextField.setText(DateFormatter.toString(new Date()));
         lineNumTextField.setText(line.getNumber()+ "-" +line.getName());
     }
     

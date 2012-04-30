@@ -183,10 +183,7 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
         // Center Dialog
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
-        EditBudgetTableModel model = (EditBudgetTableModel) expendituresTable.getModel();
-        model.refresh();
-        model = (EditBudgetTableModel) incomeTable.getModel();
-        model.refresh();
+        refreshButtonActionPerformed(null);
     }
     
     protected void initEditBudgetAttachmentsTable()
@@ -210,7 +207,7 @@ public final class EditBudgetDialog extends javax.swing.JDialog {
             TableColumn col = attachmentsTable.getColumnModel().getColumn(i);
             col.setPreferredWidth(WIDTHS[i]);
         }
-        
+        setExcessIncomeTextField();
         attachmentsTable.addMouseListener(new MouseAdapter() 
         {
             @Override
