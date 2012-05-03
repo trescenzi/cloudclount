@@ -59,7 +59,14 @@ public class JackRabbitHandler {
        table = new ArrayList();
     }
     
-    public void initConnection(String host, String user, String password)
+    /**
+     * Begins the connection with JackRabbit
+     * @param host The host server
+     * @param user The user name of user logging in
+     * @param password The password of the user logging in
+     * @throws Exception Could not connect
+     */
+    private void initConnection(String host, String user, String password)
     throws Exception{
         repo = new URLRemoteRepository(host);
         
