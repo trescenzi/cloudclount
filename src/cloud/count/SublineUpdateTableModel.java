@@ -1,3 +1,7 @@
+/**
+ * The table model for the table in which you insert sublines into 
+ * lines.
+ */
 package cloud.count;
 
 import badm.Line;
@@ -69,8 +73,8 @@ public class SublineUpdateTableModel extends AbstractTableModel
     
     public void refresh()
     {
-        sublines.clear();
-        sublines = line.fetchSublines();
+        sublines.clear();//clear any mess out
+        sublines = line.fetchSublines();//get the new lines
         this.fireTableDataChanged(); // Tells our table the data has changed
     }
     
