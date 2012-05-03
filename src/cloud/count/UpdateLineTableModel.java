@@ -1,3 +1,8 @@
+/**
+ * The table model where most of the work goes on.
+ * Here the transactions are edited which updates the whole
+ * BADM with the proper values alone with the rest of the application.
+ */
 package cloud.count;
 
 import badm.Budget;
@@ -17,11 +22,16 @@ import org.workplicity.util.DateFormatter;
 
 public class UpdateLineTableModel extends AbstractTableModel {
 
+    /**
+     * 
+     * @param line The line that you are editing 
+     */
     public UpdateLineTableModel(Line line) {
         super();
         this.line = line;
         buildColNames();
     }
+    
     Line line;
     final static long timeInADay = 86400000;
     long lineCreateTime;
@@ -32,8 +42,15 @@ public class UpdateLineTableModel extends AbstractTableModel {
     public String getColumnName(int col) {
         return columnNames.get(col);
     }
-
-    public void buildColNames() {
+    
+    /**
+     * The column names are built here. They depend upon the roll
+     * of the budget along with the current date. For example if the 
+     * roll is weekly and it has been 15 weeks since the creation of 
+     * the budget then 15 columns will be created so that the proper 
+     * number of transactions can be edited.
+     */
+    private void buildColNames() {
         columnNames.add("Number");
         columnNames.add("Name");
         columnNames.add("Subtotal");
@@ -56,6 +73,10 @@ public class UpdateLineTableModel extends AbstractTableModel {
         }
     }
 
+    /**
+     * Builds the columns for the weekly roll.
+     * @param days The number of days since the creation of the budget
+     */
     private void weekly(int days) {
         if (days < 7) {
             columnNames.add(DateFormatter.toString(new Date(lineCreateTime)));
@@ -70,8 +91,13 @@ public class UpdateLineTableModel extends AbstractTableModel {
             }
         }
     }
-    //the following three methods wish they were written in scala:
     
+    //the following three methods wish they were written in scala:
+    /**
+     * A recursive method that builds the column names if the roll is monthly
+     * @param days The number of says since the creation
+     * @param current The "current" day. Changes as the recursion gets deeper
+     */
     private void monthly(int days, long current) {
         int month = new Date(current).getMonth();
         if (days > 0) {
@@ -98,6 +124,11 @@ public class UpdateLineTableModel extends AbstractTableModel {
         }
     }
 
+    /**
+     * Same as month but for the roll of bimonthly
+     * @param days Number of days since the creation of the budget
+     * @param current The "current date" changes as the recursion gets deeper
+     */
     private void bimonthly(int days, long current) {
         int month = new Date(current).getMonth();
         if (days > 0) {
@@ -120,7 +151,12 @@ public class UpdateLineTableModel extends AbstractTableModel {
             bimonthly(days - 62, current + (62 * timeInADay));
         }
     }
-
+    
+    /**
+     * Same as monthly and bimonthly but for a yearly roll
+     * @param days Number of days since the creation of the budget
+     * @param current The "current date" changes as the recursion gets deeper
+     */
     private void yearly(int days, long current) {
         int year = new Date(current).getYear();
         if (days > 0) {
@@ -192,6 +228,13 @@ public class UpdateLineTableModel extends AbstractTableModel {
         refresh();
     }
     
+    /**
+     * Used to allow for the direct editing of the cells that contain
+     * the transaction information
+     * @param o The new object in the cell
+     * @param row The row of the cell
+     * @param column  The column of the cell
+     */
     @Override
     public void setValueAt(Object o, int row, int column){
             if(column > 2){
@@ -210,11 +253,15 @@ public class UpdateLineTableModel extends AbstractTableModel {
                 System.out.println("Please2:"+tran.getAmount());
                 tran.commit();
             }
-            
         }
     }
     
-    public ArrayList<Transaction> sort(Subline su){
+    /**
+     * Sorts the Transactions of the Subline and returns them. 
+     * @param su The subline whose transactions you want
+     * @return The sorted list of transactions.
+     */
+    private ArrayList<Transaction> sort(Subline su){
         ArrayList<TransactionInterface> trans = su.fetchTransactions();
 
         //this is why the bridge can be very annoying 
