@@ -57,34 +57,4 @@ class RestoreWindow {
         f.setBounds(r);
         f.setCurrentDirectory(new File(path));
     }
-
-//    public static void main(String[] args) {
-//        final JFrame f = new JFrame("Good Location & Size");
-//        f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-//        f.addWindowListener( new WindowAdapter() {
-//            public void windowClosing(WindowEvent we) {
-//                try {
-//                    storeOptions(f);
-//                } catch(Exception e) {
-//                    e.printStackTrace();
-//                }
-//                System.exit(0);
-//            }
-//        });
-//        JTextArea ta = new JTextArea(20,50);
-//        f.add(ta);
-//        f.pack();
-//
-//        File optionsFile = new File(fileName);
-//        if (optionsFile.exists()) {
-//            try {
-//                restoreOptions(f);
-//            } catch(IOException ioe) {
-//                ioe.printStackTrace();
-//            }
-//        } else {
-//            f.setLocationByPlatform(true);
-//        }
-//        f.setVisible(true);
-//    }
 }
